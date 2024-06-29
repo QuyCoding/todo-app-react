@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import '../reset.css';
+import '../App.css';
 
 export default class AppClass extends Component {
   constructor(props) {
