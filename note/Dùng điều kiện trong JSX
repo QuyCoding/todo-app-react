@@ -1,0 +1,53 @@
+//Các cách viết điều kiện trong JSX React
+
+1. Sử dụng Toán Tử Ba Ngôi (? :)
+function TodoList({ todos }) {
+  return (
+    <div className="todo-app-container">
+      {todos.length > 0 ? (
+      <>
+        <ul>
+          {todos.map(todo => (
+            <li key={todo.id}>{todo.title}</li>
+          ))}
+        </ul>
+      </>  
+      ) : (
+        <p>No todos available</p>
+      )}
+    </div>
+  );
+}
+
+2. Sử dụng if else 
+function TodoList({ todos }) {
+  if (todos.length > 0) {
+    return (
+      <div className="todo-app-container">
+        <ul>
+          {todos.map(todo => (
+            <li key={todo.id}>{todo.title}</li>
+          ))}
+        </ul>
+      </div>
+    );
+  } else {
+    return <p>No todos available</p>;
+  }
+}
+
+3. Sử dụng && 
+function TodoList({ todos }) {
+  return (
+    <div className="todo-app-container">
+      {todos.length > 0 && (
+        <ul>
+          {todos.map(todo => (
+            <li key={todo.id}>{todo.title}</li>
+          ))}
+        </ul>
+      )}
+      {todos.length === 0 && <p>No todos available</p>}
+    </div>
+  );
+}

@@ -135,3 +135,10 @@ h2 {
   padding-top: 16px;
   border-top: 1px solid lightgray;
 }
+
+.no-todo-text {
+  margin-top: 16px;
+  font-size: 18px;
+  color: #6B7280;
+}
+
