@@ -1,6 +1,10 @@
 import { useState } from 'react';
 import '../reset.css';
 import '../App.css';
+import NoTodoMessage from './NoTodoMessage';
+import TodoForm from './TodoForm';
+import TodoList from './TodoList';
+
 /*
   #TODO 
   Mô tả tổng quan về các chức năng cần triển khai 
@@ -19,6 +23,8 @@ import '../App.css';
   • onBlur : sự kiện xảy ra khi một phần tử mất focus
     - Khi người dùng click ra ngoài input, input sẽ mất focus và chuyển về trạng thái ban đầu
     
+  #VSCODE
+  • gọi rfc trong vscode để tạo ra một function component  
 */
 
 function App() {
@@ -43,32 +49,15 @@ function App() {
     },
   ]);
 
-  function addTodo(event) {
-    event.preventDefault(); //Ngăn chặn gửi form đi khi nhấn Enter
-    
-    //Nếu không nhập gì mà bấm enter vẫn đẩy vào list, xử lý chặn nó
-    if(newTodo.trim().length === 0 ){
-      return ; 
-    }
-    
+  function addTodo(todo) {
     setTodos([
       ...todos,
       {
         id: todos.length + 1,
-        title: newTodo,
+        title: todo,
         isComplete: false,
       },
     ]);
-    
-    setNewTodo('')
-  }
-  
-  const [newTodo, setNewTodo] = useState('Something'); //Set default value for newTodo
-  
-  //Trong Vue có thể sử dụng v model để biding 2 chiều khi input thay đổi
-  //trong react điều này phải làm thủ công
-  function handleInput(event){
-    setNewTodo(event.target.value)
   }
    
   /* //Click vào button X thì xoá Todo đó
@@ -170,102 +159,20 @@ function App() {
       
       <div className="todo-app">
         <h2>Todo App</h2>
-        <form action="#" onSubmit={addTodo}>
-          <input
-            type="text"
-            value={newTodo}
-            onChange={handleInput }
-            className="todo-input"
-            placeholder="What do you need to do?"
+          <TodoForm 
+            addTodo={addTodo}
           />
-        </form>
           {todos.length > 0 ? (
-          <>
-            <ul className="todo-list">
-              {todos.map((todo, index) => (
-                <li key={todo.id} className="todo-item-container">
-                  <div className="todo-item">
-                    <input 
-                      type="checkbox" 
-                      checked={todo.isComplete}
-                      onChange={() => completeTodo(todo.id)}
-                    />
-                  {todo.isEditing ? (
-                    <input 
-                    type="text" 
-                    className="todo-item-input" 
-                    // value={todo.title} // Giá trị của input
-                    defaultValue={todo.title} //Giá trị mặc định của input có thể nhập liệu lại
-                    autoFocus //Tự động focus vào input khi được render
-                    onBlur={(event) => updateTodo(event,todo.id)} //Khi người dùng click ra ngoài input, input sẽ mất focus và chuyển về trạng thái ban đầu
-                    onKeyDown={(event) => {
-                      if(event.key === 'Enter'){
-                        updateTodo(event,todo.id)
-                      } else if(event.key === 'Escape'){
-                        cancelEdit(event,todo.id)
-                      }
-                    }
-                  }
-                    />
-                  ):(
-                    <>
-                      <span
-                        onDoubleClick={() => markAsEditting(todo.id)} 
-                        className={`todo-item-label ${todo.isComplete ? 'line-through' : '' }`}
-                      >
-                      {todo.title}
-                      </span>
-                    </>
-                  )}
-                    
-                  </div>
-                  <button onClick={handleDelete(todo.id)} className="x-button">
-                    <svg
-                      className="x-button-icon"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M6 18L18 6M6 6l12 12"
-                      />
-                    </svg>
-                  </button>
-                </li>
-              ))}
-            </ul>
-
-            <div className="check-all-container">
-              <div>
-                <div className="button">Check All</div>
-              </div>
-
-              <span>3 items remaining</span>
-            </div>
-
-            <div className="other-buttons-container">
-              <div>
-                <button className="button filter-button filter-button-active">
-                  All
-                </button>
-                <button className="button filter-button">Active</button>
-                <button className="button filter-button">Completed</button>
-              </div>
-              <div>
-                <button className="button">Clear completed</button>
-              </div>
-            </div>
-          </>
+            <TodoList
+              todos={todos}
+              completeTodo={completeTodo}
+              markAsEditting={markAsEditting}
+              updateTodo={updateTodo}
+              cancelEdit={cancelEdit}
+              handleDelete={handleDelete}
+            />
           ) : (
-            <div className="no-todo-text">
-                <p>Add some todos</p>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6" >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3v11.25A2.25 2.25 0 0 0 6 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0 1 18 16.5h-2.25m-7.5 0h7.5m-7.5 0-1 3m8.5-3 1 3m0 0 .5 1.5m-.5-1.5h-9.5m0 0-.5 1.5m.75-9 3-3 2.148 2.148A12.061 12.061 0 0 1 16.5 7.605" />
-                </svg>
-            </div>
+            <NoTodoMessage />
           )}
       </div>
     </div>
