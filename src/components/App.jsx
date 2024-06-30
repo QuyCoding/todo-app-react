@@ -152,6 +152,11 @@ function App() {
   
     setTodos(updatedTodos);
   }
+  
+  //handle remaining 
+  function remainingTasks(){
+    return todos.filter(todo => !todo.isComplete).length;
+  }
  
   
   return (
@@ -170,6 +175,7 @@ function App() {
               updateTodo={updateTodo}
               cancelEdit={cancelEdit}
               handleDelete={handleDelete}
+              remaining={remainingTasks}
             />
           ) : (
             <NoTodoMessage />
