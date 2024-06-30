@@ -1,4 +1,16 @@
 import React from 'react'
+import PropTypes from 'prop-types';
+
+TodoList.propTypes = {
+    addTodo: PropTypes.func,
+    todos: PropTypes.array.isRequired,
+    completeTodo: PropTypes.func.isRequired,
+    markAsEditting: PropTypes.func.isRequired,
+    updateTodo: PropTypes.func.isRequired,
+    cancelEdit: PropTypes.func.isRequired,
+    handleDelete: PropTypes.func.isRequired,
+}
+
 
 function TodoList(props) {
   return (
