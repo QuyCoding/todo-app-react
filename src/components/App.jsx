@@ -157,6 +157,17 @@ function App() {
   function remainingTasks(){
     return todos.filter(todo => !todo.isComplete).length;
   }
+  
+  //clear completed
+  /*
+    Mô tả :
+    1. Lọc ra những todo đã hoàn thành
+    2. Set lại mảng todos bằng mảng mới chứa những todo chưa hoàn thành
+  */
+  function clearCompleted(){
+    const updatedTodos = [...todos].filter(todo => !todo.isComplete);
+    setTodos(updatedTodos);
+  }
  
   
   return (
@@ -176,6 +187,7 @@ function App() {
               cancelEdit={cancelEdit}
               handleDelete={handleDelete}
               remaining={remainingTasks}
+              clearCompleted={clearCompleted}
             />
           ) : (
             <NoTodoMessage />
