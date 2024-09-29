@@ -181,6 +181,19 @@ function App() {
     
     setTodos(updatedTodos);
   }
+
+  /*
+    Lọc các và hiển thị todo theo trạng thái hiện tại
+  */
+  function todosFiltered(filter) {
+    if (filter === 'all') {
+      return todos;
+    } else if (filter === 'active') {
+      return todos.filter(todo => !todo.isComplete);
+    } else if (filter === 'completed') {
+      return todos.filter(todo => todo.isComplete);
+    }
+  }  
   
   return (
     <div className="todo-app-container">
@@ -201,6 +214,7 @@ function App() {
               remaining={remainingTasks}
               clearCompleted={clearCompleted}
               completeAllTodos={completeAllTodos}
+              todosFiltered={todosFiltered}
             />
           ) : (
             <NoTodoMessage />
