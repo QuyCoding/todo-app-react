@@ -168,7 +168,19 @@ function App() {
     const updatedTodos = [...todos].filter(todo => !todo.isComplete);
     setTodos(updatedTodos);
   }
- 
+  
+  /*
+    Đánh dấu tất cả todo là hoàn thành
+  */
+  function completeAllTodos(){
+    const updatedTodos = todos.map(todo => {
+      todo.isComplete = true;
+      
+      return todo;
+    });
+    
+    setTodos(updatedTodos);
+  }
   
   return (
     <div className="todo-app-container">
@@ -188,6 +200,7 @@ function App() {
               handleDelete={handleDelete}
               remaining={remainingTasks}
               clearCompleted={clearCompleted}
+              completeAllTodos={completeAllTodos}
             />
           ) : (
             <NoTodoMessage />
